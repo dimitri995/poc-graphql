@@ -1,0 +1,29 @@
+# Go-specific
+bin/
+*.exe
+*.test
+*.out
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Vendor directories
+vendor/
+
+# Logs and temp files
+*.log
+tmp/
+
+# OS-specific files
+Thumbs.db
+.DS_Store
+
+# Environment variables & configs
+.env
+*.local.yaml
+
+
+node_modules/
