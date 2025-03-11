@@ -3,17 +3,17 @@ package com.example.apiproduct.controller;
 import com.example.apiproduct.dto.ProductWriteDto;
 import com.example.apiproduct.model.Product;
 import com.example.apiproduct.repository.ProductRepository;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
 @Slf4j
+@RequestMapping("/api/products")
 public class ProductController {
 
     private final ProductRepository productRepository;
@@ -22,20 +22,18 @@ public class ProductController {
         this.productRepository = productRepository;
     }
 
-    @GetMapping("/products")
-    public List<Product> getProducts() {
-        log.info("get all products");
+    @QueryMapping("allProducts")
+    public List<Product> allProducts() {
         return productRepository.findAll();
     }
 
-    @PostMapping("/product")
-    public ResponseEntity<Product> addProduct(@RequestBody ProductWriteDto productDto) {
-        Product product = Product.builder()
-                .name(productDto.getName())
-                .price(productDto.getPrice())
+    @MutationMapping
+    public Product addProduct(@Argument ProductWriteDto product) {
+        Product productToSave = Product.builder()
+                .name(product.getName())
+                .price(product.getPrice())
                 .build();
 
-        Product savedProduct = productRepository.save(product);
-        return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
+        return productRepository.save(productToSave);
     }
 }

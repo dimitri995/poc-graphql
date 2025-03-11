@@ -1,0 +1,19 @@
+type Product @key(fields: "id"){
+    id: String!
+    name: String!
+    price: String!
+}
+
+
+input NewProduct {
+    name: String!
+    price: Float!
+}
+
+type Query {
+    allProducts: [Product!]!
+}
+
+type Mutation {
+    addProduct(product: NewProduct!): Product!
+}
